@@ -1,22 +1,21 @@
 """A basic change detection experiment.
 
-Author - Colin Quirk (cquirk@uchicago.edu)
+Author - William Thyer thyer@uchicago.edu
 
-Repo: https://github.com/colinquirk/PsychopyChangeDetection
+https://github.com/WilliamThyer/DualFeatureChangeDetectionEEGandRealtimeEyetracking
 
-This is a common working memory paradigm used to provide a measure of K (working memory capacity).
-This code can either be used before other tasks to provide a seperate measure of K or it can be
-inherited and extended. If this file is run directly the defaults at the top of the page will be
+Adapted experiment code, originally from Colin Quirk's https://github.com/colinquirk/PsychopyChangeDetection 
+
+If this file is run directly the defaults at the top of the page will be
 used. To make simple changes, you can adjust any of these files. For more in depth changes you
 will need to overwrite the methods yourself.
 
-Note: this code relies on my templateexperiments module. You can get it from
+Note: this code relies on Colin Quirk's templateexperiments module. You can get it from
 https://github.com/colinquirk/templateexperiments and either put it in the same folder as this
 code or give the path to psychopy in the preferences.
 
 Classes:
-Ktask -- The class that runs the experiment.
-    See 'print Ktask.__doc__' for simple class docs or help(Ktask) for everything.
+Boomerang01 -- The class that runs the experiment.
 """
 
 import os
@@ -67,7 +66,7 @@ instruct_text = [(
 )]
 
 data_directory = os.path.join(
-    os.path.expanduser('~'), 'Desktop', 'Boomerang01', 'Data')
+    '.', 'Data')
 
 # Things you probably don't need to change, but can if you want to
 exp_name = 'B01'
@@ -146,8 +145,8 @@ questionaire_dict = {
 
 # This is the logic that runs the experiment
 # Change anything below this comment at your own risk
-class Ktask(template.BaseExperiment):
-    """The class that runs the change detection experiment.
+class Boomerang01(template.BaseExperiment):
+    """The class that runs the  experiment.
 
     Parameters:
     allowed_deg_from_fix -- The maximum distance in visual degrees the stimuli can appear from
@@ -253,7 +252,7 @@ class Ktask(template.BaseExperiment):
     def init_tracker(self):
         self.tracker = eyelinker.EyeLinker(
             self.experiment_window,
-            self.experiment_name[0:4] + self.experiment_info['Subject Number'] + '.edf',
+            self.experiment_name + self.experiment_info['Subject Number'] + '.edf',
             'BOTH')
 
         self.tracker.initialize_graphics()
@@ -815,7 +814,7 @@ class Ktask(template.BaseExperiment):
             sys.exit(1)
 
         self.save_experiment_info()
-        self.open_csv_data_file(data_filename = self.experiment_name[0:4] + self.experiment_info['Subject Number'])
+        self.open_csv_data_file(data_filename = self.experiment_name + self.experiment_info['Subject Number'])
         self.open_window(screen=0)
         self.display_text_screen('Loading...', wait_for_input=False)
 
@@ -898,7 +897,7 @@ class Ktask(template.BaseExperiment):
 
 # If you call this script directly, the task will run with your defaults
 if __name__ == '__main__':
-    exp = Ktask(
+    exp = Boomerang01(
         # BaseExperiment parameters
         experiment_name=exp_name,
         data_fields=data_fields,
