@@ -71,7 +71,7 @@ data_directory = os.path.join(
 # Things you probably don't need to change, but can if you want to
 exp_name = 'B01'
 
-iti_time = 1
+iti_time = .2 #this plus a 400:600 ms jittered iti
 sample_time = 0.25
 delay_time = 1
 
@@ -313,7 +313,7 @@ class Boomerang01(template.BaseExperiment):
             lx,ly = left_eye
         if right_eye:
             rx,ry = right_eye        
-        if not left_eye & not right_eye:
+        if (not left_eye) & (not right_eye):
             return False,None
 
         eyex = np.nanmean([lx,rx])
@@ -325,7 +325,7 @@ class Boomerang01(template.BaseExperiment):
         eyey -= winy
         eyes = np.array([eyex,eyey])
 
-        limit_radius = psychopy.tools.monitorunittools.deg2pix(1.5,self.experiment_monitor)###check size of window
+        limit_radius = psychopy.tools.monitorunittools.deg2pix(1.5,self.experiment_monitor)
 
         euclid_distance = np.linalg.norm(eyes-np.array([0,0])) 
 
@@ -609,7 +609,6 @@ class Boomerang01(template.BaseExperiment):
             should be displayed.
         colors -- A list of colors describing what should be drawn at each coordinate.
         """
-
         distractor = psychopy.visual.Circle(
             self.experiment_window, 
             fillColor=[0.17, 0.18, 0.17],
@@ -618,23 +617,20 @@ class Boomerang01(template.BaseExperiment):
             units='deg',
             lineColor=None
         )
-
         psychopy.visual.TextStim(
             self.experiment_window, text='+', color=[-1, -1, -1]).draw()
-
+        
         for i in range(len(colors)):
             self.draw_stim(colors[i],orients[i],locations[i])
-
         for i in range(4-len(colors)):
             distractor.pos = locations[3-i]
             distractor.draw()
 
         self.draw_trak()
-
         self.send_synced_event(trial['code'])
         self.experiment_window.flip()
-        
-        if realtime_eyetracking:
+
+        if realtime_eyetracking:  
             reject = self.realtime_eyetracking(wait_time=self.sample_time,trial=trial)
             return reject
         else:
@@ -705,7 +701,6 @@ class Boomerang01(template.BaseExperiment):
         trial_num -- The number of the trial within a block.
         """
         self.display_fixation(wait_time=np.random.randint(400,601)/1000,trial=trial,keyList=['p','escape','o'])
-         
         self.start_eyetracking(block_num = block_num, trial_num = trial_num)
         
         self.send_synced_event(1)
@@ -726,7 +721,7 @@ class Boomerang01(template.BaseExperiment):
         if reject:
             self.handle_rejection(1)
             return None
-        
+
         self.display_test(
             trial['change'],trial['locations'], trial['stim_colors'], trial['stim_orients'], 
             trial['test_color'], trial['test_orient'])
