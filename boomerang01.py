@@ -142,7 +142,6 @@ questionaire_dict = {
     'Race': race_options,
 }
 
-
 # This is the logic that runs the experiment
 # Change anything below this comment at your own risk
 class Boomerang01(template.BaseExperiment):
@@ -310,9 +309,13 @@ class Boomerang01(template.BaseExperiment):
         
     def check_realtime_eyetracking(self,realtime_data):
         left_eye,right_eye = realtime_data
-        lx,ly = left_eye
-        rx,ry = right_eye        
-        
+        if left_eye:
+            lx,ly = left_eye
+        if right_eye:
+            rx,ry = right_eye        
+        if not left_eye & not right_eye:
+            return False,None
+
         eyex = np.nanmean([lx,rx])
         eyey = np.nanmean([ly,ly])
         
@@ -353,8 +356,11 @@ class Boomerang01(template.BaseExperiment):
     def setup_eeg(self):
         """ Connects the parallel port for EEG port code
         """
-        self.port = psychopy.parallel.ParallelPort(address=53328)
-
+        try:
+            self.port = psychopy.parallel.ParallelPort(address=53328)
+        except:
+            self.port = None
+            print('No parallel port connected. Port codes will not send!')
         
     def send_synced_event(self, code, keyword = "SYNC"):
         """Send port code to EEG and eyetracking message for later synchronization
@@ -367,7 +373,8 @@ class Boomerang01(template.BaseExperiment):
         message = keyword + ' ' + str(code)
 
         self.tracker.send_message(message)
-        self.port.setData(code)
+        if self.port:
+            self.port.setData(code)
 
     def chdir(self):
         """Changes the directory to where the data will be saved.
@@ -533,15 +540,15 @@ class Boomerang01(template.BaseExperiment):
         else:
             feat = 'orientation'
 
-        self.display_text_screen(text=f'In this block, attend {feat}\n\n\n\nPress s to continue',key_list=['s'])
+        self.display_text_screen(text=f'In this block, attend {feat}\n\n\n\nPress s to continue',keyList=['s'])
 
-    def display_fixation(self,wait_time = None, text = None, key_list = None, realtime_eyetracking = False, trial = None):
+    def display_fixation(self,wait_time = None, text = None, keyList = None, realtime_eyetracking = False, trial = None):
         """Displays a fixation cross. A helper function for self.run_trial.
 
         Parameters:
         wait_time -- The amount of time the fixation should be displayed for.
         text -- Str that displays above fixation cross. 
-        key_list -- If key_list is given, will wait until key press
+        keyList -- If keyList is given, will wait until key press
         trial -- Trial object needed for realtime eyetracking functionality.
         real_time_eyetracking -- Bool for if you want to do realtime eyetracking or not
         """
@@ -558,10 +565,10 @@ class Boomerang01(template.BaseExperiment):
             reject = self.realtime_eyetracking(wait_time=wait_time,trial=trial)
             return reject    
         else:
-            if key_list:
-                resp = psychopy.event.waitKeys(maxWait=wait_time,keyList=key_list)
+            if keyList:
+                resp = psychopy.event.waitKeys(maxWait=wait_time,keyList=keyList)
                 if resp == ['p']:
-                    self.display_text_screen(text='Paused',key_list = ['s'])
+                    self.display_text_screen(text='Paused',keyList = ['s'])
                     self.display_fixation(wait_time=1)
                 elif resp == ['o']:
                     self.tracker.calibrate()
@@ -685,7 +692,7 @@ class Boomerang01(template.BaseExperiment):
         if np.sum(self.rejection_tracker) == 5:
             
             self.rejection_tracker = np.zeros(5)
-            self.display_text_screen(text='Rejected 5 in row\n\nContinue?',key_list = ['y'],bg_color=[0, 0, 255],text_color=[255,255,255])
+            self.display_text_screen(text='Rejected 5 in row\n\nContinue?',keyList = ['y'],bg_color=[0, 0, 255],text_color=[255,255,255])
 
     def run_trial(self, trial, block_num, trial_num, realtime_eyetracking=False):
         """Runs a single trial.
@@ -697,7 +704,7 @@ class Boomerang01(template.BaseExperiment):
         block_num -- The number of the block in the experiment.
         trial_num -- The number of the trial within a block.
         """
-        self.display_fixation(wait_time=np.random.randint(400,601)/1000,trial=trial,key_list=['p','escape','o'])
+        self.display_fixation(wait_time=np.random.randint(400,601)/1000,trial=trial,keyList=['p','escape','o'])
          
         self.start_eyetracking(block_num = block_num, trial_num = trial_num)
         
@@ -775,7 +782,7 @@ class Boomerang01(template.BaseExperiment):
 
         self.save_data_to_csv()
         self.display_text_screen(
-            text = 'Block complete.\n\n\n\nPress s to continue.')
+            text = 'Block complete.\n\n\n\nPress s to continue.',keyList=['s'])
 
     def run(self):
         """Runs the entire experiment.
@@ -821,7 +828,7 @@ class Boomerang01(template.BaseExperiment):
         self.init_tracker()
 
         for instruction in self.instruct_text:
-            self.display_text_screen(text=instruction, key_list=['s'])
+            self.display_text_screen(text=instruction, keyList=['s'])
         
         self.setup_eeg()
         self.show_eyetracking_instructions()
@@ -830,7 +837,7 @@ class Boomerang01(template.BaseExperiment):
         Practice
         """
         block_num = 0
-        prac = self.display_text_screen(text = f'Practice block?', key_list=['y','n'])
+        prac = self.display_text_screen(text = f'Practice block?', keyList=['y','n'])
 
         while prac == ['y']: 
             
@@ -848,9 +855,9 @@ class Boomerang01(template.BaseExperiment):
             
             self.display_text_screen(
                 text = f'Block Accuracy: {round(100*np.nanmean(acc))}\n\n\n\nPress s to continue.',
-                key_list= ['s']
+                keyList= ['s']
             )
-            prac = self.display_text_screen(text = f'Practice block?', key_list=['y','n'])
+            prac = self.display_text_screen(text = f'Practice block?', keyList=['y','n'])
             
         """
         Experiment
