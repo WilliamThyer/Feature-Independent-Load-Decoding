@@ -245,13 +245,14 @@ class Boomerang01(template.BaseExperiment):
         self.color_block = []
         self.orient_block = []
         self.rejection_tracker = np.zeros(5)
+        self.rejection_counter = 0
 
         super().__init__(**kwargs)
 
     def init_tracker(self):
         self.tracker = eyelinker.EyeLinker(
             self.experiment_window,
-            self.experiment_name + self.experiment_info['Subject Number'] + '.edf',
+            self.experiment_name + '_' + self.experiment_info['Subject Number'] + '.edf',
             'BOTH')
 
         self.tracker.initialize_graphics()
@@ -270,7 +271,7 @@ class Boomerang01(template.BaseExperiment):
         block_num-- Which block participant is in
         trial_num-- Which trial in block participant is in
         """
-        status = 'Block {}, Trial {}'.format(block_num, trial_num)
+        status = f'Block {block_num+1}, Trial {trial_num+1}'
         self.tracker.send_status(status)
 
         self.tracker.start_recording()
@@ -297,6 +298,9 @@ class Boomerang01(template.BaseExperiment):
             reject,eyes = self.check_realtime_eyetracking(realtime_data)
 #            reject=False
             if reject:
+                self.rejection_counter +=1
+                print(f'# of rejected trials:{self.rejection_counter}')
+
                 if trial['block_feature'] == 0:
                     self.color_block.append(trial)
                 else:
@@ -574,7 +578,12 @@ class Boomerang01(template.BaseExperiment):
                     self.tracker.calibrate()
                     self.display_fixation(wait_time=1)
                 elif resp == ['escape']:
-                    self.quit_experiment()
+                    resp = self.display_text_screen(text='Are you sure you want to exit?',keyList = ['y','n'])
+                    if resp == ['y']:
+                        self.tracker.transfer_edf()
+                        self.quit_experiment()
+                    else:
+                        self.display_fixation(wait_time=1)
             else:
                 psychopy.core.wait(wait_time)
                 
@@ -684,7 +693,7 @@ class Boomerang01(template.BaseExperiment):
         self.rejection_tracker = np.roll(self.rejection_tracker,1)
         
         self.rejection_tracker[0] = reject
-        print(self.rejection_tracker)
+        
         if np.sum(self.rejection_tracker) == 5:
             
             self.rejection_tracker = np.zeros(5)
@@ -825,18 +834,18 @@ class Boomerang01(template.BaseExperiment):
         for instruction in self.instruct_text:
             self.display_text_screen(text=instruction, keyList=['s'])
         
-        self.setup_eeg()
         self.show_eyetracking_instructions()
 
         """
         Practice
         """
         block_num = 0
+        self.port = None
         prac = self.display_text_screen(text = f'Practice block?', keyList=['y','n'])
-
+        
         while prac == ['y']: 
             
-            block = self.make_block(block_num)
+            block = self.make_block(block_num,number_of_trials_per_block=12)
             acc = []
             
             for trial_num, trial in enumerate(block):
@@ -857,6 +866,7 @@ class Boomerang01(template.BaseExperiment):
         """
         Experiment
         """
+        self.setup_eeg()
         for block_num in range(self.number_of_blocks):
             block = self.make_block(block_num)
             acc = []
@@ -894,6 +904,7 @@ class Boomerang01(template.BaseExperiment):
             'The experiment is now over, please get your experimenter.',
             bg_color=[0, 0, 255], text_color=[255, 255, 255])
         
+        self.tracker.transfer_edf()
         self.quit_experiment()
 
 
