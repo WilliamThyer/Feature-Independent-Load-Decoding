@@ -376,10 +376,10 @@ class Boomerang01(template.BaseExperiment):
 
         message = keyword + ' ' + str(code)
 
-        self.tracker.send_message(message)
         if self.port:
             self.port.setData(code)
-
+            self.tracker.send_message(message)
+            
     def chdir(self):
         """Changes the directory to where the data will be saved.
         """
@@ -674,6 +674,8 @@ class Boomerang01(template.BaseExperiment):
 
         keys = self.keys + ['p']
 
+        psychopy.core.wait(.1)
+
         resp = psychopy.event.waitKeys(keyList=keys, timeStamped=rt_timer)
 
         return resp[0][0], resp[0][1]*1000  # key and rt in milliseconds
@@ -825,7 +827,7 @@ class Boomerang01(template.BaseExperiment):
             sys.exit(1)
 
         self.save_experiment_info()
-        self.open_csv_data_file(data_filename = self.experiment_name + self.experiment_info['Subject Number'])
+        self.open_csv_data_file(data_filename = self.experiment_name + '_' + self.experiment_info['Subject Number'])
         self.open_window(screen=0)
         self.display_text_screen('Loading...', wait_for_input=False)
 
