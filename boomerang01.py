@@ -24,6 +24,7 @@ import errno
 
 import json
 import random
+import copy
 
 import numpy as np
 
@@ -38,7 +39,7 @@ import eyelinker
 
 # Things you probably want to change
 number_of_trials_per_block = 100
-number_of_blocks = 10
+number_of_blocks = 12
 percent_same = 0.5  # between 0 and 1
 set_sizes = [1,3]
 stim_size = 1.3  # visual degrees, used for X and Y
@@ -242,10 +243,9 @@ class Boomerang01(template.BaseExperiment):
             self.diff_trials_per_set_size = (
                 number_of_trials_per_block - self.same_trials_per_set_size)
         
-        self.color_block = []
-        self.orient_block = []
+        self.color_rej_counter = 0
+        self.orient_rej_counter = 0 
         self.rejection_tracker = np.zeros(5)
-        self.rejection_counter = 0
 
         super().__init__(**kwargs)
 
@@ -281,7 +281,7 @@ class Boomerang01(template.BaseExperiment):
         """
         self.tracker.stop_recording()
 
-    def realtime_eyetracking(self,wait_time,trial,sampling_rate=.01):
+    def realtime_eyetracking(self,wait_time,block_feature,sampling_rate=.01):
         """Collect real time eyetracking data over a period of time
 
         Returns eyetracking data
@@ -298,14 +298,13 @@ class Boomerang01(template.BaseExperiment):
             reject,eyes = self.check_realtime_eyetracking(realtime_data)
 #            reject=False
             if reject:
-                self.rejection_counter +=1
-                print(f'# of rejected trials:{self.rejection_counter}')
-
-                if trial['block_feature'] == 0:
-                    self.color_block.append(trial)
+                if block_feature == 0:
+                    self.color_rej_counter += 1
+                    print(f'# of rejected color trials:{self.color_rej_counter}')
                 else:
-                    self.orient_block.append(trial)
-                
+                    self.orient_rej_counter += 1
+                    print(f'# of rejected orientation trials:{self.orient_rej_counter}')
+                    
                 self.stop_eyetracking()
                 self.display_eyemovement_feedback(eyes)
                 return reject
@@ -349,6 +348,14 @@ class Boomerang01(template.BaseExperiment):
         
         psychopy.core.wait(1.5)
 
+    def handle_rejection(self,reject):
+        self.rejection_tracker = np.roll(self.rejection_tracker,1)
+        self.rejection_tracker[0] = reject
+        
+        if np.sum(self.rejection_tracker) == 5:
+            self.rejection_tracker = np.zeros(5)
+            self.display_text_screen(text='Rejected 5 in row\n\nContinue?',keyList = ['y'],bg_color=[0, 0, 255],text_color=[255,255,255])
+
     def kill_tracker(self):
         """Turns off eyetracker and transfers EDF file
         """
@@ -379,7 +386,7 @@ class Boomerang01(template.BaseExperiment):
         if self.port:
             self.port.setData(code)
             self.tracker.send_message(message)
-            
+
     def chdir(self):
         """Changes the directory to where the data will be saved.
         """
@@ -392,7 +399,7 @@ class Boomerang01(template.BaseExperiment):
 
         os.chdir(self.data_directory)
     
-    def make_block(self,block_num,number_of_trials_per_block = None):
+    def make_block(self, block_num, number_of_trials_per_block = None, block_feature = None):
         """Makes a block of trials.
 
         Returns a shuffled list of trials created by self.make_trial
@@ -400,11 +407,14 @@ class Boomerang01(template.BaseExperiment):
         if not number_of_trials_per_block:
             number_of_trials_per_block = self.number_of_trials_per_block
 
-        if block_num%((int(self.experiment_info['Subject Number'])%2)+2) == 0:
-            block_feature = 0
+        if block_feature:
+            pass
         else:
-            block_feature = 1
-
+            if block_num%((int(self.experiment_info['Subject Number'])%2)+2) == 0:
+                block_feature = 0
+            else:
+                block_feature = 1
+        
         set_size_block = np.tile([1,3], number_of_trials_per_block//2)
         change_block = np.tile([0,0,1,1], number_of_trials_per_block//4)
 
@@ -566,7 +576,7 @@ class Boomerang01(template.BaseExperiment):
         self.experiment_window.flip()
 
         if realtime_eyetracking:
-            reject = self.realtime_eyetracking(wait_time=wait_time,trial=trial)
+            reject = self.realtime_eyetracking(wait_time=wait_time,block_feature=trial['block_feature'])
             return reject    
         else:
             if keyList:
@@ -640,7 +650,7 @@ class Boomerang01(template.BaseExperiment):
         self.experiment_window.flip()
 
         if realtime_eyetracking:  
-            reject = self.realtime_eyetracking(wait_time=self.sample_time,trial=trial)
+            reject = self.realtime_eyetracking(wait_time=self.sample_time,block_feature=trial['block_feature'])
             return reject
         else:
             psychopy.core.wait(self.sample_time)
@@ -690,16 +700,6 @@ class Boomerang01(template.BaseExperiment):
         data -- A dict where keys exist in data_fields and values are to be saved.
         """
         self.update_experiment_data([data])
-    
-    def handle_rejection(self,reject):
-        self.rejection_tracker = np.roll(self.rejection_tracker,1)
-        
-        self.rejection_tracker[0] = reject
-        
-        if np.sum(self.rejection_tracker) == 5:
-            
-            self.rejection_tracker = np.zeros(5)
-            self.display_text_screen(text='Rejected 5 in row\n\nContinue?',keyList = ['y'],bg_color=[0, 0, 255],text_color=[255,255,255])
 
     def run_trial(self, trial, block_num, trial_num, realtime_eyetracking=False):
         """Runs a single trial.
@@ -768,27 +768,35 @@ class Boomerang01(template.BaseExperiment):
         print(f'Acc:{acc}')
         return data
 
-    def run_makeup_block(self,block,block_feature,block_num):
-        self.tracker.calibrate()
-        if block_feature == 0:
-            self.color_block = []
-        else:
-            self.orient_block = []
-        
-        block_num +=1
-        for trial_num, trial in enumerate(block):
-            if trial_num == 1:
-                self.display_start_block_screen(block_feature)
-            elif trial_num % 5 == 0:
-                self.tracker.drift_correct()
-                
-            data = self.run_trial(trial, block_num, trial_num, realtime_eyetracking=True)
-            if data:
-                self.send_data(data)
+    def run_makeup_block(self,block_feature,block_num):
 
-        self.save_data_to_csv()
-        self.display_text_screen(
-            text = 'Block complete.\n\n\n\nPress s to continue.',keyList=['s'])
+            if block_feature == 0:
+                number_of_trials_per_block = copy(self.color_rej_counter)
+                self.color_rej_counter=0
+            else:
+                number_of_trials_per_block = copy(self.orient_rej_counter)
+                self.orient_rej_counter=0
+            
+            block_num += 1
+            self.rejection_tracker = np.zeros(5)
+
+            block = self.make_block(block_num=block_num,
+                                    number_of_trials_per_block=number_of_trials_per_block,
+                                    block_feature=0)
+
+            for trial_num, trial in enumerate(block):
+                if trial_num == 1:
+                    self.display_start_block_screen(block_feature)
+                if trial_num % 5 == 0:
+                    self.tracker.drift_correct()
+                    
+                data = self.run_trial(trial, block_num, trial_num, realtime_eyetracking=True)
+                if data:
+                    self.send_data(data)
+
+            self.save_data_to_csv()
+            self.display_text_screen(
+                text = 'Block complete.\n\n\n\nPress s to continue.',keyList=['s'])
 
     def run(self):
         """Runs the entire experiment.
@@ -878,7 +886,7 @@ class Boomerang01(template.BaseExperiment):
             for trial_num, trial in enumerate(block):
                 if trial_num == 0:
                     self.display_start_block_screen(trial['block_feature'])
-                elif trial_num % 5 == 0:
+                if trial_num % 5 == 0:
                     self.tracker.drift_correct()
 
                 data = self.run_trial(trial, block_num, trial_num, realtime_eyetracking=True)
@@ -893,22 +901,18 @@ class Boomerang01(template.BaseExperiment):
 
         """
         Makeup Blocks
-        """
-        while len(self.color_block) > 25:
-            self.rejection_tracker = np.zeros(5)
-            self.run_makeup_block(self.color_block,0,block_num)
+        """        
+        while len(self.color_rej_counter) > 25:
+            self.run_makeup_block(block_feature=0,block_num=block_num)
+        while len(self.orient_rej_counter) > 25:
+            self.run_makeup_block(block_feature=1,block_num=block_num)
         
-        while len(self.orient_block) > 25:
-            self.rejection_tracker = np.zeros(5)
-            self.run_makeup_block(self.orient_block,1,block_num)
-            
         self.display_text_screen(
             'The experiment is now over, please get your experimenter.',
             bg_color=[0, 0, 255], text_color=[255, 255, 255])
         
         self.tracker.transfer_edf()
         self.quit_experiment()
-
 
 # If you call this script directly, the task will run with your defaults
 if __name__ == '__main__':
