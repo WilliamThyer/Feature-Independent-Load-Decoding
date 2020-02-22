@@ -38,8 +38,8 @@ import template
 import eyelinker
 
 # Things you probably want to change
-number_of_trials_per_block = 100
-number_of_blocks = 12
+number_of_trials_per_block = 8
+number_of_blocks = 2
 percent_same = 0.5  # between 0 and 1
 set_sizes = [1,3]
 stim_size = 1.3  # visual degrees, used for X and Y
@@ -407,13 +407,8 @@ class Boomerang01(template.BaseExperiment):
         if not number_of_trials_per_block:
             number_of_trials_per_block = self.number_of_trials_per_block
 
-        if block_feature:
-            pass
-        else:
-            if block_num%((int(self.experiment_info['Subject Number'])%2)+2) == 0:
-                block_feature = 0
-            else:
-                block_feature = 1
+        if block_feature is None:
+            block_feature = (int(self.experiment_info['Subject Number'])+block_num)%2 == 0
         
         set_size_block = np.tile([1,3], number_of_trials_per_block//2)
         change_block = np.tile([0,0,1,1], number_of_trials_per_block//4)
@@ -458,7 +453,7 @@ class Boomerang01(template.BaseExperiment):
                 cresp = 'd'
             test_color = self.colors[stim_color_idx[0]]
         
-        code = int(str(block_feature+1) + str(change) + str(set_size))
+        code = int(str(block_feature+1) + str(set_size))
 
         trial = {
             'code': code,
@@ -771,21 +766,20 @@ class Boomerang01(template.BaseExperiment):
     def run_makeup_block(self,block_feature,block_num):
 
             if block_feature == 0:
-                number_of_trials_per_block = copy(self.color_rej_counter)
+                number_of_trials_per_block = copy.copy(self.color_rej_counter)
                 self.color_rej_counter=0
             else:
-                number_of_trials_per_block = copy(self.orient_rej_counter)
+                number_of_trials_per_block = copy.copy(self.orient_rej_counter)
                 self.orient_rej_counter=0
             
-            block_num += 1
             self.rejection_tracker = np.zeros(5)
-
             block = self.make_block(block_num=block_num,
                                     number_of_trials_per_block=number_of_trials_per_block,
-                                    block_feature=0)
-
+                                    block_feature=block_feature)
+            
+            self.tracker.calibrate()
             for trial_num, trial in enumerate(block):
-                if trial_num == 1:
+                if trial_num == 0:
                     self.display_start_block_screen(block_feature)
                 if trial_num % 5 == 0:
                     self.tracker.drift_correct()
@@ -902,11 +896,14 @@ class Boomerang01(template.BaseExperiment):
         """
         Makeup Blocks
         """        
-        while len(self.color_rej_counter) > 25:
+        while self.color_rej_counter > 25:
+            block_num += 1
             self.run_makeup_block(block_feature=0,block_num=block_num)
-        while len(self.orient_rej_counter) > 25:
+            
+        while self.orient_rej_counter > 25:
+            block_num += 1
             self.run_makeup_block(block_feature=1,block_num=block_num)
-        
+            
         self.display_text_screen(
             'The experiment is now over, please get your experimenter.',
             bg_color=[0, 0, 255], text_color=[255, 255, 255])
