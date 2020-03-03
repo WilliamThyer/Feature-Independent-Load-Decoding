@@ -38,8 +38,8 @@ import template
 import eyelinker
 
 # Things you probably want to change
-number_of_trials_per_block = 8
-number_of_blocks = 2
+number_of_trials_per_block = 100
+number_of_blocks = 12
 percent_same = 0.5  # between 0 and 1
 set_sizes = [1,3]
 stim_size = 1.3  # visual degrees, used for X and Y
@@ -385,6 +385,8 @@ class Boomerang01(template.BaseExperiment):
 
         if self.port:
             self.port.setData(code)
+            psychopy.core.wait(.05)
+            self.port.setData(0)
             self.tracker.send_message(message)
 
     def chdir(self):
@@ -408,7 +410,7 @@ class Boomerang01(template.BaseExperiment):
             number_of_trials_per_block = self.number_of_trials_per_block
 
         if block_feature is None:
-            block_feature = (int(self.experiment_info['Subject Number'])+block_num)%2 == 0
+            block_feature = (int(self.experiment_info['Subject Number'])+block_num)%2
         
         set_size_block = np.tile([1,3], number_of_trials_per_block//2)
         change_block = np.tile([0,0,1,1], number_of_trials_per_block//4)
