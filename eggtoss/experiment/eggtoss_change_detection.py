@@ -35,7 +35,7 @@ import eyelinker
 warnings.filterwarnings("ignore")
 
 # Things you probably want to change
-number_of_trials_per_block = 48  # 52
+number_of_trials_per_block = 4  # 52
 number_of_ss0_trials_per_block = 0
 number_of_blocks = 4
 # do 5 RUNS of 4 blocks

@@ -1,0 +1,3 @@
+bin 1
+Successful trial, timelocked to stim onset
+.{11;13;21;23}{2}{t<1000-1500>3}
