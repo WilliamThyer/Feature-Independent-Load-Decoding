@@ -1,6 +1,8 @@
 # Feature Independent Load Decoding
 Experiment code for "Boomerang" and "Eggtoss" studies. Uses https://github.com/colinquirk/templateexperiments to build experiments. Includes realtime eyetracking rejection and synchronous EEG port codes.
 
+[OSF Repo with data here.](https://osf.io/jvqpd/)
+
 # Experiments
 
 ## Boomerang
