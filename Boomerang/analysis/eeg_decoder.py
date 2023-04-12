@@ -1072,7 +1072,7 @@ class Interpreter:
         stim_upper = ylim[1]
 
         # plotting
-        ax = plt.subplot(111)
+        fig,ax = plt.subplots()
 
         ax.fill_between(stim_time, [stim_lower, stim_lower], [
                         stim_upper, stim_upper], color='gray', alpha=.5)
@@ -1124,7 +1124,7 @@ class Interpreter:
             plt.title(title, fontsize=18)
 
         self.savefig('acc'+subtitle, save=savefig)
-        # plt.show()
+        plt.show()
 
         delay_period_acc = np.mean(acc_mean[self.t > stim_time[1]])
         delay_period_sd = np.std(acc_mean[self.t > stim_time[1]])

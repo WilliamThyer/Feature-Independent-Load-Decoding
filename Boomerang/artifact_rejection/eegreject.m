@@ -6,8 +6,9 @@ eeglab
 
 %% Options
 
-subjectParentDir = '../raw_data/BTest/';
-subjectDirectories = {'19/'};  % optionally {} for recursive search
+subjectParentDir = '../raw_data/B01/';
+
+subjectDirectories = {'06'};  % optionally {} for recursive search
 
 lowboundFilterHz = 0.01;
 highboundFilterHz = 30;
@@ -40,8 +41,8 @@ screenResY = 1080;  %px
 
 eogThresh = 75; %microv
 
-eegThresh = 90; %microv
-eegNoiseThresh = 110; %microv %100 works well for subjects with high alpha
+eegThresh = 80; %microv
+eegNoiseThresh = 100; %microv %100 works well for subjects with high alpha
 
 eegResampleRate = 500; %hz
 
@@ -109,6 +110,8 @@ for subdir=1:numel(subjectDirectories)
     ascFullFilename = fullfile(subdirPath, ascDir(1).name);
 
     EEG = pop_loadbv(subdirPath, vhdrFilename);
+    
+    clear ALLEEG
     
     EEG.setname = vhdrFilename(1:end-5);
     
