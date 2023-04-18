@@ -1301,7 +1301,7 @@ class Interpreter:
         ax.yaxis.set_ticks(np.arange(.1, 1.1, .1))
         plt.setp(ax.get_xticklabels(), fontsize=14)
         plt.setp(ax.get_yticklabels(), fontsize=14)
-        plt.xlim(max(self.t), max(self.t))
+        plt.xlim(min(self.t), max(self.t))
         plt.ylim(ylim)
 
         # labelling
@@ -1309,7 +1309,7 @@ class Interpreter:
         plt.ylabel('Accuracy', fontsize=14)
         ax.text(.88, chance_text_y, 'Shuffle', transform=ax.transAxes, fontsize=14,
                 verticalalignment='top', color='grey')
-        ax.text(0.25, .9, 'Stim', transform=ax.transAxes, fontsize=16,
+        ax.text(0.25, .98, 'Stim', transform=ax.transAxes, fontsize=16,
                 verticalalignment='top', color='white')
         if title is not None:
             plt.title(title, fontsize=18)
