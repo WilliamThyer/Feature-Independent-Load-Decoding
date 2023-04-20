@@ -758,8 +758,8 @@ class Wrangler:
             xdata_train_binned, ydata_train_binned = self.bin_trials(xdata_train, ydata_train)
             xdata_test_binned, ydata_test_binned = self.bin_trials(xdata_test, ydata_test)
 
-            X_train_all, X_test_all, y_train, y_test = train_test_split(xdata_train_binned,ydata_train_binned,stratify=ydata_train_binned)
-            X_train_all, X_test_all, y_train, y_test = train_test_split(xdata_test_binned,ydata_test_binned,stratify=ydata_test_binned,test_size=test_size)
+            X_train_all, _, y_train, _ = train_test_split(xdata_train_binned,ydata_train_binned,stratify=ydata_train_binned)
+            _, X_test_all, _, y_test = train_test_split(xdata_test_binned,ydata_test_binned,stratify=ydata_test_binned,test_size=test_size)
 
             yield X_train_all, X_test_all, y_train, y_test
 

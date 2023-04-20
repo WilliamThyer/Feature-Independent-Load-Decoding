@@ -699,8 +699,13 @@ class Eggtoss(template.BaseExperiment):
         coherences = [0, 0, 0, 1, 1, 1, 1, 0, 1]
         oris = [0, 0, 0, 170, 50, 60, 140, 20, 90]
 
+        locations = [[-8.5, 0],  [-4.5, -4.5], [-2.5,.5]]
+        colors = [self.rgb_table[1], self.rgb_table[2],self.rgb_table[3]]
+        coherences = [0, 1, 1]
+        oris = [0, 90, 15]
+
         dots_list = []
-        for istim in range(9):
+        for istim in range(3):
             dots = self.init_stim(
                 locations[istim], coherences[istim], oris[istim], colors[istim])
             dots_list.append(dots)
@@ -773,6 +778,7 @@ class Eggtoss(template.BaseExperiment):
             'Block': trial['block_num'],
             'BlockFeature': trial['block_feature'],
             'Trial': trial_num,
+
             'Timestamp': psychopy.core.getAbsTime(),
             'Change': trial['change'],
             'SetSize': trial['set_size'],
