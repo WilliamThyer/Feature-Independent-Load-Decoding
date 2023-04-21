@@ -1,5 +1,5 @@
-subs = {'01','02','03','04','05','06','07'};
-subs = {'08','10'}
+subs = {'01','02','03','04','05','06','07','08','10','11','13','14'};
+subs = {'11','13','14'}
 experiment = 'e';
 numsubs= length(subs);
 root = '.';
@@ -14,6 +14,11 @@ for isub = 1:numsubs
     dirs = files([files.isdir]);
     run_folders = dirs(3:end);
     run_folder_names = {run_folders.name};
+
+        % these subjects' run 4 didn't sync so skip
+    if ismember(subs{isub},{'14'})
+        run_folder_names = {'1','2','3','4'};
+    end
     
     for irun = 1:numel(run_folder_names)
 
