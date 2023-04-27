@@ -991,9 +991,9 @@ class Interpreter:
         with open(file_to_save, "wb") as fp:
             pickle.dump(results_dict, fp)
 
-    def load_results(self, filename=None):
+    def _load_results(self, filename=None):
         """
-        Loads results of classification.
+        Returns results of classification.
 
         Keyword arguments:
         filename -- name of file to be loaded
@@ -1010,7 +1010,57 @@ class Interpreter:
         with open(file_to_open, "rb") as fp:
             results = pickle.load(fp)
 
+        return results
+
+    def load_results(self, filename=None):
+        """
+        Loads results of classification and updates self.
+
+        Keyword arguments:
+        filename -- name of file to be loaded
+        """
+        results = self._load_results(filename=filename)
         self.__dict__.update(results)
+
+    def combine_interps(self, interp_filenames, overwrite_current_interp=True):
+        """
+        Combines multiple saved interpreter results for "Subset" comparisons
+
+        Keyword arguments:
+        interp_filenames (list) -- list of Interpreter results saved in 'Output' folder
+        overwrite_current_interp (bool) -- When true, current interpreter is overwritten before
+                                           saved results are combined. Useful when starting off
+                                           with blank interp.
+        """
+        for i, f in enumerate(interp_filenames):
+            # to overwrite results
+            if (i == 0) & (overwrite_current_interp is True):
+                self.load_results(f)
+
+            # to add results anad check compatibility
+            else:
+                results = self._load_results(f)
+
+                self.check_interp_compatibility(results, f)
+
+                self.acc = np.concatenate([self.acc[:, np.newaxis], results["acc"][:, np.newaxis]], 1)
+                self.acc_shuff = np.concatenate([self.acc_shuff[:, np.newaxis], results["acc_shuff"][:, np.newaxis]], 1)
+
+    def check_interp_compatibility(self, results, filename):
+        """
+        Checks that Interpreter results being combined has the same parameters as self.
+
+        Keyword arguments:
+        results -- the results being added to self
+        filename -- name of results file being added
+        """
+        check = np.array(["t", "time_window", "time_step", "trial_bin_size", "n_splits"])
+
+        check_list = np.array([np.all(self.__dict__[c] == results[c]) for c in check])
+        no_match = check[~check_list]
+
+        if len(no_match) > 0:
+            print(f"WARNING: Attributes {no_match} from {filename} did not match Interpreter!")
 
     def savefig(self, subtitle="", file_format=[".pdf", ".png"], save=True):
         """
