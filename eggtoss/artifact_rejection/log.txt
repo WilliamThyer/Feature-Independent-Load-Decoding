@@ -20569,3 +20569,835 @@ Event resorted by increasing latencies.
 Importing infos about other eyetracking messages into EEG.etc
 
 Synchronization completed.
+Run started: 08-May-2023 12:02:43
+
+No .asc file found, looking for an edf file...
+Bandpass filtering with lowboundFilterHz = 0.010000 and highboundFilterHz=35.000000
+
+Rereferencing with following equation list:
+ch1 = ch1 - (.5 * ch10) Label Fp1
+ch2 = ch2 - (.5 * ch10) Label Fz
+ch3 = ch3 - (.5 * ch10) Label F3
+ch4 = ch4 - (.5 * ch10) Label F7
+ch5 = ch5 - (.5 * ch10) Label CP5
+ch6 = ch6 - (.5 * ch10) Label FC5
+ch7 = ch7 - (.5 * ch10) Label FC1
+ch8 = ch8 - (.5 * ch10) Label C3
+ch9 = ch9 - (.5 * ch10) Label PO3
+ch10 = ch10 - (.5 * ch10) Label TP9
+ch11 = ch11 - (.5 * ch10) Label PO7
+ch12 = ch12 - (.5 * ch10) Label CP1
+ch13 = ch13 - (.5 * ch10) Label Pz
+ch14 = ch14 - (.5 * ch10) Label P3
+ch15 = ch15 - (.5 * ch10) Label P7
+ch16 = ch16 - (.5 * ch10) Label O1
+ch17 = ch17 - (.5 * ch10) Label Oz
+ch18 = ch18 - (.5 * ch10) Label O2
+ch19 = ch19 - (.5 * ch10) Label P4
+ch20 = ch20 - (.5 * ch10) Label P8
+ch21 = ch21 - (.5 * ch10) Label PO8
+ch22 = ch22 - (.5 * ch10) Label CP2
+ch23 = ch23 - (.5 * ch10) Label Cz
+ch24 = ch24 - (.5 * ch10) Label C4
+ch25 = ch25 - (.5 * ch10) Label PO4
+ch26 = ch26 - (.5 * ch10) Label CP6
+ch27 = ch27 - (.5 * ch10) Label FC6
+ch28 = ch28 - (.5 * ch10) Label FC2
+ch29 = ch29 - (.5 * ch10) Label F4
+ch30 = ch30 - (.5 * ch10) Label F8
+ch31 = ch31 - (.5 * ch10) Label Fp2
+
+Parsing asc file: ..aw_data8
+pop_importeyetracker(): Loading ..\raw_data\18\1\e_18_1_eye.mat...
+pop_importeyetracker(): Synchronizing EEG and eye tracking data...
+
+-- 553150 EEG samples in synchronization range
+-- 672428 ET samples in synchronization range
+-- 500.00 Hz EEG sampling rate
+-- 607.82 Hz estimated ET sampling rate [*]
+   ([*] taking EEG as master clock & assuming the ET recording was never paused)
+-- Eye track will be downsampled to match the EEG sampling rate
+
+-- Note: the toolbox does not yet implement a low-pass filter to prevent aliasing.
+
+
+synchronize(): I detected 291 PAUSES in the eye-tracking recording!
+Pauses were defined as jumps in the ET time stamp > 3 samples
+The last data sample before and first sample after each pause
+will be set to zero to avoid interpolation artifacts during the pause!
+
+Shared events of same type less than +/- 4 samples apart: 1170
+
+Synchronization quality:
+For all events in the EEG, an ET event of the same type was found within plusminus 4 samples.
+Synch. error is the latency difference between matching ET/EEG events after synchronization.
+It is distributed as follows:
+
+Error [smp]	Events
+-------------------------
+    -4     0
+    -3     0
+    -2   113
+    -1   246
+     0   313
+     1   367
+     2   128
+     3     3
+     4     0
+
+-------------------------
+Mean abs. sync. error (estimated from "shared" events): 1.887 ms
+-------------------------
+
+Event resorted by increasing latencies.
+
+Importing infos about other eyetracking messages into EEG.etc
+
+Synchronization completed.
+No .asc file found, looking for an edf file...
+Bandpass filtering with lowboundFilterHz = 0.010000 and highboundFilterHz=35.000000
+
+Rereferencing with following equation list:
+ch1 = ch1 - (.5 * ch10) Label Fp1
+ch2 = ch2 - (.5 * ch10) Label Fz
+ch3 = ch3 - (.5 * ch10) Label F3
+ch4 = ch4 - (.5 * ch10) Label F7
+ch5 = ch5 - (.5 * ch10) Label CP5
+ch6 = ch6 - (.5 * ch10) Label FC5
+ch7 = ch7 - (.5 * ch10) Label FC1
+ch8 = ch8 - (.5 * ch10) Label C3
+ch9 = ch9 - (.5 * ch10) Label PO3
+ch10 = ch10 - (.5 * ch10) Label TP9
+ch11 = ch11 - (.5 * ch10) Label PO7
+ch12 = ch12 - (.5 * ch10) Label CP1
+ch13 = ch13 - (.5 * ch10) Label Pz
+ch14 = ch14 - (.5 * ch10) Label P3
+ch15 = ch15 - (.5 * ch10) Label P7
+ch16 = ch16 - (.5 * ch10) Label O1
+ch17 = ch17 - (.5 * ch10) Label Oz
+ch18 = ch18 - (.5 * ch10) Label O2
+ch19 = ch19 - (.5 * ch10) Label P4
+ch20 = ch20 - (.5 * ch10) Label P8
+ch21 = ch21 - (.5 * ch10) Label PO8
+ch22 = ch22 - (.5 * ch10) Label CP2
+ch23 = ch23 - (.5 * ch10) Label Cz
+ch24 = ch24 - (.5 * ch10) Label C4
+ch25 = ch25 - (.5 * ch10) Label PO4
+ch26 = ch26 - (.5 * ch10) Label CP6
+ch27 = ch27 - (.5 * ch10) Label FC6
+ch28 = ch28 - (.5 * ch10) Label FC2
+ch29 = ch29 - (.5 * ch10) Label F4
+ch30 = ch30 - (.5 * ch10) Label F8
+ch31 = ch31 - (.5 * ch10) Label Fp2
+
+Parsing asc file: ..aw_data9
+pop_importeyetracker(): Loading ..\raw_data\19\1\e_19_1_eye.mat...
+pop_importeyetracker(): Synchronizing EEG and eye tracking data...
+
+-- 624193 EEG samples in synchronization range
+-- 743935 ET samples in synchronization range
+-- 500.00 Hz EEG sampling rate
+-- 595.92 Hz estimated ET sampling rate [*]
+   ([*] taking EEG as master clock & assuming the ET recording was never paused)
+-- Eye track will be downsampled to match the EEG sampling rate
+
+-- Note: the toolbox does not yet implement a low-pass filter to prevent aliasing.
+
+
+synchronize(): I detected 265 PAUSES in the eye-tracking recording!
+Pauses were defined as jumps in the ET time stamp > 3 samples
+The last data sample before and first sample after each pause
+will be set to zero to avoid interpolation artifacts during the pause!
+
+Shared events of same type less than +/- 4 samples apart: 1115
+
+Synchronization quality:
+For all events in the EEG, an ET event of the same type was found within plusminus 4 samples.
+Synch. error is the latency difference between matching ET/EEG events after synchronization.
+It is distributed as follows:
+
+Error [smp]	Events
+-------------------------
+    -4     0
+    -3     0
+    -2     0
+    -1    47
+     0   961
+     1   107
+     2     0
+     3     0
+     4     0
+
+-------------------------
+Mean abs. sync. error (estimated from "shared" events): 0.276 ms
+-------------------------
+
+Event resorted by increasing latencies.
+
+Importing infos about other eyetracking messages into EEG.etc
+
+Synchronization completed.
+No .asc file found, looking for an edf file...
+Bandpass filtering with lowboundFilterHz = 0.010000 and highboundFilterHz=35.000000
+
+Rereferencing with following equation list:
+ch1 = ch1 - (.5 * ch10) Label Fp1
+ch2 = ch2 - (.5 * ch10) Label Fz
+ch3 = ch3 - (.5 * ch10) Label F3
+ch4 = ch4 - (.5 * ch10) Label F7
+ch5 = ch5 - (.5 * ch10) Label CP5
+ch6 = ch6 - (.5 * ch10) Label FC5
+ch7 = ch7 - (.5 * ch10) Label FC1
+ch8 = ch8 - (.5 * ch10) Label C3
+ch9 = ch9 - (.5 * ch10) Label PO3
+ch10 = ch10 - (.5 * ch10) Label TP9
+ch11 = ch11 - (.5 * ch10) Label PO7
+ch12 = ch12 - (.5 * ch10) Label CP1
+ch13 = ch13 - (.5 * ch10) Label Pz
+ch14 = ch14 - (.5 * ch10) Label P3
+ch15 = ch15 - (.5 * ch10) Label P7
+ch16 = ch16 - (.5 * ch10) Label O1
+ch17 = ch17 - (.5 * ch10) Label Oz
+ch18 = ch18 - (.5 * ch10) Label O2
+ch19 = ch19 - (.5 * ch10) Label P4
+ch20 = ch20 - (.5 * ch10) Label P8
+ch21 = ch21 - (.5 * ch10) Label PO8
+ch22 = ch22 - (.5 * ch10) Label CP2
+ch23 = ch23 - (.5 * ch10) Label Cz
+ch24 = ch24 - (.5 * ch10) Label C4
+ch25 = ch25 - (.5 * ch10) Label PO4
+ch26 = ch26 - (.5 * ch10) Label CP6
+ch27 = ch27 - (.5 * ch10) Label FC6
+ch28 = ch28 - (.5 * ch10) Label FC2
+ch29 = ch29 - (.5 * ch10) Label F4
+ch30 = ch30 - (.5 * ch10) Label F8
+ch31 = ch31 - (.5 * ch10) Label Fp2
+
+Parsing asc file: ..aw_data8
+pop_importeyetracker(): Loading ..\raw_data\18\2\e_18_2_eye.mat...
+pop_importeyetracker(): Synchronizing EEG and eye tracking data...
+
+-- 543206 EEG samples in synchronization range
+-- 638761 ET samples in synchronization range
+-- 500.00 Hz EEG sampling rate
+-- 587.95 Hz estimated ET sampling rate [*]
+   ([*] taking EEG as master clock & assuming the ET recording was never paused)
+-- Eye track will be downsampled to match the EEG sampling rate
+
+-- Note: the toolbox does not yet implement a low-pass filter to prevent aliasing.
+
+
+synchronize(): I detected 235 PAUSES in the eye-tracking recording!
+Pauses were defined as jumps in the ET time stamp > 3 samples
+The last data sample before and first sample after each pause
+will be set to zero to avoid interpolation artifacts during the pause!
+
+Shared events of same type less than +/- 4 samples apart: 1079
+
+Synchronization quality:
+For all events in the EEG, an ET event of the same type was found within plusminus 4 samples.
+Synch. error is the latency difference between matching ET/EEG events after synchronization.
+It is distributed as follows:
+
+Error [smp]	Events
+-------------------------
+    -4     0
+    -3     0
+    -2     0
+    -1    62
+     0   911
+     1   106
+     2     0
+     3     0
+     4     0
+
+-------------------------
+Mean abs. sync. error (estimated from "shared" events): 0.311 ms
+-------------------------
+
+Event resorted by increasing latencies.
+
+Importing infos about other eyetracking messages into EEG.etc
+
+Synchronization completed.
+No .asc file found, looking for an edf file...
+Bandpass filtering with lowboundFilterHz = 0.010000 and highboundFilterHz=35.000000
+
+Rereferencing with following equation list:
+ch1 = ch1 - (.5 * ch10) Label Fp1
+ch2 = ch2 - (.5 * ch10) Label Fz
+ch3 = ch3 - (.5 * ch10) Label F3
+ch4 = ch4 - (.5 * ch10) Label F7
+ch5 = ch5 - (.5 * ch10) Label CP5
+ch6 = ch6 - (.5 * ch10) Label FC5
+ch7 = ch7 - (.5 * ch10) Label FC1
+ch8 = ch8 - (.5 * ch10) Label C3
+ch9 = ch9 - (.5 * ch10) Label PO3
+ch10 = ch10 - (.5 * ch10) Label TP9
+ch11 = ch11 - (.5 * ch10) Label PO7
+ch12 = ch12 - (.5 * ch10) Label CP1
+ch13 = ch13 - (.5 * ch10) Label Pz
+ch14 = ch14 - (.5 * ch10) Label P3
+ch15 = ch15 - (.5 * ch10) Label P7
+ch16 = ch16 - (.5 * ch10) Label O1
+ch17 = ch17 - (.5 * ch10) Label Oz
+ch18 = ch18 - (.5 * ch10) Label O2
+ch19 = ch19 - (.5 * ch10) Label P4
+ch20 = ch20 - (.5 * ch10) Label P8
+ch21 = ch21 - (.5 * ch10) Label PO8
+ch22 = ch22 - (.5 * ch10) Label CP2
+ch23 = ch23 - (.5 * ch10) Label Cz
+ch24 = ch24 - (.5 * ch10) Label C4
+ch25 = ch25 - (.5 * ch10) Label PO4
+ch26 = ch26 - (.5 * ch10) Label CP6
+ch27 = ch27 - (.5 * ch10) Label FC6
+ch28 = ch28 - (.5 * ch10) Label FC2
+ch29 = ch29 - (.5 * ch10) Label F4
+ch30 = ch30 - (.5 * ch10) Label F8
+ch31 = ch31 - (.5 * ch10) Label Fp2
+
+Parsing asc file: ..aw_data9
+pop_importeyetracker(): Loading ..\raw_data\19\2\e_19_2_eye.mat...
+pop_importeyetracker(): Synchronizing EEG and eye tracking data...
+
+-- 682801 EEG samples in synchronization range
+-- 832767 ET samples in synchronization range
+-- 500.00 Hz EEG sampling rate
+-- 609.82 Hz estimated ET sampling rate [*]
+   ([*] taking EEG as master clock & assuming the ET recording was never paused)
+-- Eye track will be downsampled to match the EEG sampling rate
+
+-- Note: the toolbox does not yet implement a low-pass filter to prevent aliasing.
+
+
+synchronize(): I detected 235 PAUSES in the eye-tracking recording!
+Pauses were defined as jumps in the ET time stamp > 3 samples
+The last data sample before and first sample after each pause
+will be set to zero to avoid interpolation artifacts during the pause!
+
+Shared events of same type less than +/- 4 samples apart: 1155
+
+Synchronization quality:
+For all events in the EEG, an ET event of the same type was found within plusminus 4 samples.
+Synch. error is the latency difference between matching ET/EEG events after synchronization.
+It is distributed as follows:
+
+Error [smp]	Events
+-------------------------
+    -4     0
+    -3     0
+    -2     0
+    -1    23
+     0   962
+     1   170
+     2     0
+     3     0
+     4     0
+
+-------------------------
+Mean abs. sync. error (estimated from "shared" events): 0.334 ms
+-------------------------
+
+Event resorted by increasing latencies.
+
+Importing infos about other eyetracking messages into EEG.etc
+
+Synchronization completed.
+No .asc file found, looking for an edf file...
+Bandpass filtering with lowboundFilterHz = 0.010000 and highboundFilterHz=35.000000
+
+Rereferencing with following equation list:
+ch1 = ch1 - (.5 * ch10) Label Fp1
+ch2 = ch2 - (.5 * ch10) Label Fz
+ch3 = ch3 - (.5 * ch10) Label F3
+ch4 = ch4 - (.5 * ch10) Label F7
+ch5 = ch5 - (.5 * ch10) Label CP5
+ch6 = ch6 - (.5 * ch10) Label FC5
+ch7 = ch7 - (.5 * ch10) Label FC1
+ch8 = ch8 - (.5 * ch10) Label C3
+ch9 = ch9 - (.5 * ch10) Label PO3
+ch10 = ch10 - (.5 * ch10) Label TP9
+ch11 = ch11 - (.5 * ch10) Label PO7
+ch12 = ch12 - (.5 * ch10) Label CP1
+ch13 = ch13 - (.5 * ch10) Label Pz
+ch14 = ch14 - (.5 * ch10) Label P3
+ch15 = ch15 - (.5 * ch10) Label P7
+ch16 = ch16 - (.5 * ch10) Label O1
+ch17 = ch17 - (.5 * ch10) Label Oz
+ch18 = ch18 - (.5 * ch10) Label O2
+ch19 = ch19 - (.5 * ch10) Label P4
+ch20 = ch20 - (.5 * ch10) Label P8
+ch21 = ch21 - (.5 * ch10) Label PO8
+ch22 = ch22 - (.5 * ch10) Label CP2
+ch23 = ch23 - (.5 * ch10) Label Cz
+ch24 = ch24 - (.5 * ch10) Label C4
+ch25 = ch25 - (.5 * ch10) Label PO4
+ch26 = ch26 - (.5 * ch10) Label CP6
+ch27 = ch27 - (.5 * ch10) Label FC6
+ch28 = ch28 - (.5 * ch10) Label FC2
+ch29 = ch29 - (.5 * ch10) Label F4
+ch30 = ch30 - (.5 * ch10) Label F8
+ch31 = ch31 - (.5 * ch10) Label Fp2
+
+Parsing asc file: ..aw_data8
+pop_importeyetracker(): Loading ..\raw_data\18\3\e_18_3_eye.mat...
+pop_importeyetracker(): Synchronizing EEG and eye tracking data...
+
+-- 522204 EEG samples in synchronization range
+-- 713057 ET samples in synchronization range
+-- 500.00 Hz EEG sampling rate
+-- 682.74 Hz estimated ET sampling rate [*]
+   ([*] taking EEG as master clock & assuming the ET recording was never paused)
+-- Eye track will be downsampled to match the EEG sampling rate
+
+-- Note: the toolbox does not yet implement a low-pass filter to prevent aliasing.
+
+
+synchronize(): I detected 235 PAUSES in the eye-tracking recording!
+Pauses were defined as jumps in the ET time stamp > 3 samples
+The last data sample before and first sample after each pause
+will be set to zero to avoid interpolation artifacts during the pause!
+
+Shared events of same type less than +/- 4 samples apart: 1125
+
+Synchronization quality:
+For all events in the EEG, an ET event of the same type was found within plusminus 4 samples.
+Synch. error is the latency difference between matching ET/EEG events after synchronization.
+It is distributed as follows:
+
+Error [smp]	Events
+-------------------------
+    -4     0
+    -3     0
+    -2     0
+    -1    32
+     0   963
+     1   130
+     2     0
+     3     0
+     4     0
+
+-------------------------
+Mean abs. sync. error (estimated from "shared" events): 0.288 ms
+-------------------------
+
+Event resorted by increasing latencies.
+
+Importing infos about other eyetracking messages into EEG.etc
+
+Synchronization completed.
+No .asc file found, looking for an edf file...
+Bandpass filtering with lowboundFilterHz = 0.010000 and highboundFilterHz=35.000000
+
+Rereferencing with following equation list:
+ch1 = ch1 - (.5 * ch10) Label Fp1
+ch2 = ch2 - (.5 * ch10) Label Fz
+ch3 = ch3 - (.5 * ch10) Label F3
+ch4 = ch4 - (.5 * ch10) Label F7
+ch5 = ch5 - (.5 * ch10) Label CP5
+ch6 = ch6 - (.5 * ch10) Label FC5
+ch7 = ch7 - (.5 * ch10) Label FC1
+ch8 = ch8 - (.5 * ch10) Label C3
+ch9 = ch9 - (.5 * ch10) Label PO3
+ch10 = ch10 - (.5 * ch10) Label TP9
+ch11 = ch11 - (.5 * ch10) Label PO7
+ch12 = ch12 - (.5 * ch10) Label CP1
+ch13 = ch13 - (.5 * ch10) Label Pz
+ch14 = ch14 - (.5 * ch10) Label P3
+ch15 = ch15 - (.5 * ch10) Label P7
+ch16 = ch16 - (.5 * ch10) Label O1
+ch17 = ch17 - (.5 * ch10) Label Oz
+ch18 = ch18 - (.5 * ch10) Label O2
+ch19 = ch19 - (.5 * ch10) Label P4
+ch20 = ch20 - (.5 * ch10) Label P8
+ch21 = ch21 - (.5 * ch10) Label PO8
+ch22 = ch22 - (.5 * ch10) Label CP2
+ch23 = ch23 - (.5 * ch10) Label Cz
+ch24 = ch24 - (.5 * ch10) Label C4
+ch25 = ch25 - (.5 * ch10) Label PO4
+ch26 = ch26 - (.5 * ch10) Label CP6
+ch27 = ch27 - (.5 * ch10) Label FC6
+ch28 = ch28 - (.5 * ch10) Label FC2
+ch29 = ch29 - (.5 * ch10) Label F4
+ch30 = ch30 - (.5 * ch10) Label F8
+ch31 = ch31 - (.5 * ch10) Label Fp2
+
+Parsing asc file: ..aw_data9
+pop_importeyetracker(): Loading ..\raw_data\19\3\e_19_3_eye.mat...
+pop_importeyetracker(): Synchronizing EEG and eye tracking data...
+
+-- 613801 EEG samples in synchronization range
+-- 751704 ET samples in synchronization range
+-- 500.00 Hz EEG sampling rate
+-- 612.34 Hz estimated ET sampling rate [*]
+   ([*] taking EEG as master clock & assuming the ET recording was never paused)
+-- Eye track will be downsampled to match the EEG sampling rate
+
+-- Note: the toolbox does not yet implement a low-pass filter to prevent aliasing.
+
+
+synchronize(): I detected 235 PAUSES in the eye-tracking recording!
+Pauses were defined as jumps in the ET time stamp > 3 samples
+The last data sample before and first sample after each pause
+will be set to zero to avoid interpolation artifacts during the pause!
+
+Shared events of same type less than +/- 4 samples apart: 1158
+
+Synchronization quality:
+For all events in the EEG, an ET event of the same type was found within plusminus 4 samples.
+Synch. error is the latency difference between matching ET/EEG events after synchronization.
+It is distributed as follows:
+
+Error [smp]	Events
+-------------------------
+    -4     0
+    -3     0
+    -2     0
+    -1    42
+     0   986
+     1   130
+     2     0
+     3     0
+     4     0
+
+-------------------------
+Mean abs. sync. error (estimated from "shared" events): 0.297 ms
+-------------------------
+
+Event resorted by increasing latencies.
+
+Importing infos about other eyetracking messages into EEG.etc
+
+Synchronization completed.
+No .asc file found, looking for an edf file...
+Bandpass filtering with lowboundFilterHz = 0.010000 and highboundFilterHz=35.000000
+
+Rereferencing with following equation list:
+ch1 = ch1 - (.5 * ch10) Label Fp1
+ch2 = ch2 - (.5 * ch10) Label Fz
+ch3 = ch3 - (.5 * ch10) Label F3
+ch4 = ch4 - (.5 * ch10) Label F7
+ch5 = ch5 - (.5 * ch10) Label CP5
+ch6 = ch6 - (.5 * ch10) Label FC5
+ch7 = ch7 - (.5 * ch10) Label FC1
+ch8 = ch8 - (.5 * ch10) Label C3
+ch9 = ch9 - (.5 * ch10) Label PO3
+ch10 = ch10 - (.5 * ch10) Label TP9
+ch11 = ch11 - (.5 * ch10) Label PO7
+ch12 = ch12 - (.5 * ch10) Label CP1
+ch13 = ch13 - (.5 * ch10) Label Pz
+ch14 = ch14 - (.5 * ch10) Label P3
+ch15 = ch15 - (.5 * ch10) Label P7
+ch16 = ch16 - (.5 * ch10) Label O1
+ch17 = ch17 - (.5 * ch10) Label Oz
+ch18 = ch18 - (.5 * ch10) Label O2
+ch19 = ch19 - (.5 * ch10) Label P4
+ch20 = ch20 - (.5 * ch10) Label P8
+ch21 = ch21 - (.5 * ch10) Label PO8
+ch22 = ch22 - (.5 * ch10) Label CP2
+ch23 = ch23 - (.5 * ch10) Label Cz
+ch24 = ch24 - (.5 * ch10) Label C4
+ch25 = ch25 - (.5 * ch10) Label PO4
+ch26 = ch26 - (.5 * ch10) Label CP6
+ch27 = ch27 - (.5 * ch10) Label FC6
+ch28 = ch28 - (.5 * ch10) Label FC2
+ch29 = ch29 - (.5 * ch10) Label F4
+ch30 = ch30 - (.5 * ch10) Label F8
+ch31 = ch31 - (.5 * ch10) Label Fp2
+
+Parsing asc file: ..aw_data8
+pop_importeyetracker(): Loading ..\raw_data\18\4\e_18_4_eye.mat...
+pop_importeyetracker(): Synchronizing EEG and eye tracking data...
+
+-- 521727 EEG samples in synchronization range
+-- 731423 ET samples in synchronization range
+-- 500.00 Hz EEG sampling rate
+-- 700.96 Hz estimated ET sampling rate [*]
+   ([*] taking EEG as master clock & assuming the ET recording was never paused)
+-- Eye track will be downsampled to match the EEG sampling rate
+
+-- Note: the toolbox does not yet implement a low-pass filter to prevent aliasing.
+
+
+synchronize(): I detected 235 PAUSES in the eye-tracking recording!
+Pauses were defined as jumps in the ET time stamp > 3 samples
+The last data sample before and first sample after each pause
+will be set to zero to avoid interpolation artifacts during the pause!
+
+Shared events of same type less than +/- 4 samples apart: 1144
+
+Synchronization quality:
+For all events in the EEG, an ET event of the same type was found within plusminus 4 samples.
+Synch. error is the latency difference between matching ET/EEG events after synchronization.
+It is distributed as follows:
+
+Error [smp]	Events
+-------------------------
+    -4     0
+    -3     0
+    -2     0
+    -1     6
+     0   917
+     1   221
+     2     0
+     3     0
+     4     0
+
+-------------------------
+Mean abs. sync. error (estimated from "shared" events): 0.397 ms
+-------------------------
+
+Event resorted by increasing latencies.
+
+Importing infos about other eyetracking messages into EEG.etc
+
+Synchronization completed.
+No .asc file found, looking for an edf file...
+Bandpass filtering with lowboundFilterHz = 0.010000 and highboundFilterHz=35.000000
+
+Rereferencing with following equation list:
+ch1 = ch1 - (.5 * ch10) Label Fp1
+ch2 = ch2 - (.5 * ch10) Label Fz
+ch3 = ch3 - (.5 * ch10) Label F3
+ch4 = ch4 - (.5 * ch10) Label F7
+ch5 = ch5 - (.5 * ch10) Label CP5
+ch6 = ch6 - (.5 * ch10) Label FC5
+ch7 = ch7 - (.5 * ch10) Label FC1
+ch8 = ch8 - (.5 * ch10) Label C3
+ch9 = ch9 - (.5 * ch10) Label PO3
+ch10 = ch10 - (.5 * ch10) Label TP9
+ch11 = ch11 - (.5 * ch10) Label PO7
+ch12 = ch12 - (.5 * ch10) Label CP1
+ch13 = ch13 - (.5 * ch10) Label Pz
+ch14 = ch14 - (.5 * ch10) Label P3
+ch15 = ch15 - (.5 * ch10) Label P7
+ch16 = ch16 - (.5 * ch10) Label O1
+ch17 = ch17 - (.5 * ch10) Label Oz
+ch18 = ch18 - (.5 * ch10) Label O2
+ch19 = ch19 - (.5 * ch10) Label P4
+ch20 = ch20 - (.5 * ch10) Label P8
+ch21 = ch21 - (.5 * ch10) Label PO8
+ch22 = ch22 - (.5 * ch10) Label CP2
+ch23 = ch23 - (.5 * ch10) Label Cz
+ch24 = ch24 - (.5 * ch10) Label C4
+ch25 = ch25 - (.5 * ch10) Label PO4
+ch26 = ch26 - (.5 * ch10) Label CP6
+ch27 = ch27 - (.5 * ch10) Label FC6
+ch28 = ch28 - (.5 * ch10) Label FC2
+ch29 = ch29 - (.5 * ch10) Label F4
+ch30 = ch30 - (.5 * ch10) Label F8
+ch31 = ch31 - (.5 * ch10) Label Fp2
+
+Parsing asc file: ..aw_data9
+pop_importeyetracker(): Loading ..\raw_data\19\4\e_19_4_eye.mat...
+pop_importeyetracker(): Synchronizing EEG and eye tracking data...
+
+-- 588358 EEG samples in synchronization range
+-- 734531 ET samples in synchronization range
+-- 500.00 Hz EEG sampling rate
+-- 624.22 Hz estimated ET sampling rate [*]
+   ([*] taking EEG as master clock & assuming the ET recording was never paused)
+-- Eye track will be downsampled to match the EEG sampling rate
+
+-- Note: the toolbox does not yet implement a low-pass filter to prevent aliasing.
+
+
+synchronize(): I detected 235 PAUSES in the eye-tracking recording!
+Pauses were defined as jumps in the ET time stamp > 3 samples
+The last data sample before and first sample after each pause
+will be set to zero to avoid interpolation artifacts during the pause!
+
+Shared events of same type less than +/- 4 samples apart: 1151
+
+Synchronization quality:
+For all events in the EEG, an ET event of the same type was found within plusminus 4 samples.
+Synch. error is the latency difference between matching ET/EEG events after synchronization.
+It is distributed as follows:
+
+Error [smp]	Events
+-------------------------
+          -4           0
+          -3           0
+          -2           0
+          -1          78
+           0        1011
+           1          62
+           2           0
+           3           0
+           4           0
+
+-------------------------
+Mean abs. sync. error (estimated from "shared" events): 0.243 ms
+-------------------------
+
+Event resorted by increasing latencies.
+
+Importing infos about other eyetracking messages into EEG.etc
+
+Synchronization completed.
+No .asc file found, looking for an edf file...
+Bandpass filtering with lowboundFilterHz = 0.010000 and highboundFilterHz=35.000000
+
+Rereferencing with following equation list:
+ch1 = ch1 - (.5 * ch10) Label Fp1
+ch2 = ch2 - (.5 * ch10) Label Fz
+ch3 = ch3 - (.5 * ch10) Label F3
+ch4 = ch4 - (.5 * ch10) Label F7
+ch5 = ch5 - (.5 * ch10) Label CP5
+ch6 = ch6 - (.5 * ch10) Label FC5
+ch7 = ch7 - (.5 * ch10) Label FC1
+ch8 = ch8 - (.5 * ch10) Label C3
+ch9 = ch9 - (.5 * ch10) Label PO3
+ch10 = ch10 - (.5 * ch10) Label TP9
+ch11 = ch11 - (.5 * ch10) Label PO7
+ch12 = ch12 - (.5 * ch10) Label CP1
+ch13 = ch13 - (.5 * ch10) Label Pz
+ch14 = ch14 - (.5 * ch10) Label P3
+ch15 = ch15 - (.5 * ch10) Label P7
+ch16 = ch16 - (.5 * ch10) Label O1
+ch17 = ch17 - (.5 * ch10) Label Oz
+ch18 = ch18 - (.5 * ch10) Label O2
+ch19 = ch19 - (.5 * ch10) Label P4
+ch20 = ch20 - (.5 * ch10) Label P8
+ch21 = ch21 - (.5 * ch10) Label PO8
+ch22 = ch22 - (.5 * ch10) Label CP2
+ch23 = ch23 - (.5 * ch10) Label Cz
+ch24 = ch24 - (.5 * ch10) Label C4
+ch25 = ch25 - (.5 * ch10) Label PO4
+ch26 = ch26 - (.5 * ch10) Label CP6
+ch27 = ch27 - (.5 * ch10) Label FC6
+ch28 = ch28 - (.5 * ch10) Label FC2
+ch29 = ch29 - (.5 * ch10) Label F4
+ch30 = ch30 - (.5 * ch10) Label F8
+ch31 = ch31 - (.5 * ch10) Label Fp2
+
+Parsing asc file: ..aw_data8
+pop_importeyetracker(): Loading ..\raw_data\18\5\e_18_5_eye.mat...
+pop_importeyetracker(): Synchronizing EEG and eye tracking data...
+
+-- 255994 EEG samples in synchronization range
+-- 373751 ET samples in synchronization range
+-- 500.00 Hz EEG sampling rate
+-- 730.00 Hz estimated ET sampling rate [*]
+   ([*] taking EEG as master clock & assuming the ET recording was never paused)
+-- Eye track will be downsampled to match the EEG sampling rate
+
+-- Note: the toolbox does not yet implement a low-pass filter to prevent aliasing.
+
+
+synchronize(): I detected 129 PAUSES in the eye-tracking recording!
+Pauses were defined as jumps in the ET time stamp > 3 samples
+The last data sample before and first sample after each pause
+will be set to zero to avoid interpolation artifacts during the pause!
+
+Shared events of same type less than +/- 4 samples apart: 624
+
+Synchronization quality:
+For all events in the EEG, an ET event of the same type was found within plusminus 4 samples.
+Synch. error is the latency difference between matching ET/EEG events after synchronization.
+It is distributed as follows:
+
+Error [smp]	Events
+-------------------------
+    -4     0
+    -3     0
+    -2     0
+    -1    15
+     0   543
+     1    66
+     2     0
+     3     0
+     4     0
+
+-------------------------
+Mean abs. sync. error (estimated from "shared" events): 0.260 ms
+-------------------------
+
+Event resorted by increasing latencies.
+
+Importing infos about other eyetracking messages into EEG.etc
+
+Synchronization completed.
+No .asc file found, looking for an edf file...
+Bandpass filtering with lowboundFilterHz = 0.010000 and highboundFilterHz=35.000000
+
+Rereferencing with following equation list:
+ch1 = ch1 - (.5 * ch10) Label Fp1
+ch2 = ch2 - (.5 * ch10) Label Fz
+ch3 = ch3 - (.5 * ch10) Label F3
+ch4 = ch4 - (.5 * ch10) Label F7
+ch5 = ch5 - (.5 * ch10) Label CP5
+ch6 = ch6 - (.5 * ch10) Label FC5
+ch7 = ch7 - (.5 * ch10) Label FC1
+ch8 = ch8 - (.5 * ch10) Label C3
+ch9 = ch9 - (.5 * ch10) Label PO3
+ch10 = ch10 - (.5 * ch10) Label TP9
+ch11 = ch11 - (.5 * ch10) Label PO7
+ch12 = ch12 - (.5 * ch10) Label CP1
+ch13 = ch13 - (.5 * ch10) Label Pz
+ch14 = ch14 - (.5 * ch10) Label P3
+ch15 = ch15 - (.5 * ch10) Label P7
+ch16 = ch16 - (.5 * ch10) Label O1
+ch17 = ch17 - (.5 * ch10) Label Oz
+ch18 = ch18 - (.5 * ch10) Label O2
+ch19 = ch19 - (.5 * ch10) Label P4
+ch20 = ch20 - (.5 * ch10) Label P8
+ch21 = ch21 - (.5 * ch10) Label PO8
+ch22 = ch22 - (.5 * ch10) Label CP2
+ch23 = ch23 - (.5 * ch10) Label Cz
+ch24 = ch24 - (.5 * ch10) Label C4
+ch25 = ch25 - (.5 * ch10) Label PO4
+ch26 = ch26 - (.5 * ch10) Label CP6
+ch27 = ch27 - (.5 * ch10) Label FC6
+ch28 = ch28 - (.5 * ch10) Label FC2
+ch29 = ch29 - (.5 * ch10) Label F4
+ch30 = ch30 - (.5 * ch10) Label F8
+ch31 = ch31 - (.5 * ch10) Label Fp2
+
+Parsing asc file: ..aw_data9
+pop_importeyetracker(): Loading ..\raw_data\19\5\e_19_5_eye.mat...
+pop_importeyetracker(): Synchronizing EEG and eye tracking data...
+
+-- 561119 EEG samples in synchronization range
+-- 684699 ET samples in synchronization range
+-- 500.00 Hz EEG sampling rate
+-- 610.12 Hz estimated ET sampling rate [*]
+   ([*] taking EEG as master clock & assuming the ET recording was never paused)
+-- Eye track will be downsampled to match the EEG sampling rate
+
+-- Note: the toolbox does not yet implement a low-pass filter to prevent aliasing.
+
+
+synchronize(): I detected 235 PAUSES in the eye-tracking recording!
+Pauses were defined as jumps in the ET time stamp > 3 samples
+The last data sample before and first sample after each pause
+will be set to zero to avoid interpolation artifacts during the pause!
+
+Shared events of same type less than +/- 4 samples apart: 1154
+
+Synchronization quality:
+For all events in the EEG, an ET event of the same type was found within plusminus 4 samples.
+Synch. error is the latency difference between matching ET/EEG events after synchronization.
+It is distributed as follows:
+
+Error [smp]	Events
+-------------------------
+          -4           0
+          -3           0
+          -2           0
+          -1         113
+           0        1005
+           1          36
+           2           0
+           3           0
+           4           0
+
+-------------------------
+Mean abs. sync. error (estimated from "shared" events): 0.258 ms
+-------------------------
+
+Event resorted by increasing latencies.
+
+Importing infos about other eyetracking messages into EEG.etc
+
+Synchronization completed.
