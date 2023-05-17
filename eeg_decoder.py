@@ -24,7 +24,15 @@ class Experiment:
         data_dir,
         info_from_file=True,
         dev=False,
-        info_variable_names=["unique_id", "chan_labels", "chan_x", "chan_y", "chan_z", "sampling_rate", "times"],
+        info_variable_names=[
+            "unique_id",
+            "chan_labels",
+            "chan_x",
+            "chan_y",
+            "chan_z",
+            "sampling_rate",
+            "times",
+        ],
         trim_timepoints=None,
     ):
         """Organizes and loads in EEG, trial labels, behavior, eyetracking, and session data.
@@ -57,7 +65,9 @@ class Experiment:
             self.info.pop("unique_id")
 
             if trim_timepoints:
-                self.trim_idx = (self.info["times"] >= trim_timepoints[0]) & (self.info["times"] <= trim_timepoints[1])
+                self.trim_idx = (self.info["times"] >= trim_timepoints[0]) & (
+                    self.info["times"] <= trim_timepoints[1]
+                )
                 self.info["original_times"] = self.info["times"]
                 self.info["times"] = self.info["times"][self.trim_idx]
 
@@ -129,7 +139,17 @@ class Experiment:
         return artifact_idx
 
     def load_info(
-        self, isub, variable_names=["unique_id", "chan_labels", "chan_x", "chan_y", "chan_z", "sampling_rate", "times"]
+        self,
+        isub,
+        variable_names=[
+            "unique_id",
+            "chan_labels",
+            "chan_x",
+            "chan_y",
+            "chan_z",
+            "sampling_rate",
+            "times",
+        ],
     ):
         """
         loads info file that contains data about EEG file and subject
@@ -269,7 +289,9 @@ class Experiment_Syncer:
         ydata: labels, shape[trials]
         """
         for exp_name in xdata.keys():
-            xdata[exp_name], ydata[exp_name] = self.wrangler.select_labels(xdata[exp_name], ydata[exp_name])
+            xdata[exp_name], ydata[exp_name] = self.wrangler.select_labels(
+                xdata[exp_name], ydata[exp_name]
+            )
         return xdata, ydata
 
     def group_labels(self, xdata, ydata):
@@ -281,7 +303,9 @@ class Experiment_Syncer:
         ydata -- labels, shape[trials]
         """
         for exp_name in xdata.keys():
-            xdata[exp_name], ydata[exp_name] = self.wrangler.group_labels(xdata[exp_name], ydata[exp_name])
+            xdata[exp_name], ydata[exp_name] = self.wrangler.group_labels(
+                xdata[exp_name], ydata[exp_name]
+            )
         return xdata, ydata
 
     def balance_labels(self, xdata, ydata):
@@ -293,7 +317,9 @@ class Experiment_Syncer:
         ydata -- labels, shape[trials]
         """
         for exp_name in xdata.keys():
-            xdata[exp_name], ydata[exp_name] = self.wrangler.balance_labels(xdata[exp_name], ydata[exp_name])
+            xdata[exp_name], ydata[exp_name] = self.wrangler.balance_labels(
+                xdata[exp_name], ydata[exp_name]
+            )
         return xdata, ydata
 
     def bin_trials(self, xdata, ydata):
@@ -305,7 +331,9 @@ class Experiment_Syncer:
         ydata -- labels, shape[trials]
         """
         for exp_name in xdata.keys():
-            xdata[exp_name], ydata[exp_name] = self.wrangler.average_trials(xdata[exp_name], ydata[exp_name])
+            xdata[exp_name], ydata[exp_name] = self.wrangler.average_trials(
+                xdata[exp_name], ydata[exp_name]
+            )
         return xdata, ydata
 
     def setup_data(self, xdata, ydata, labels=False, group_dict=False):
@@ -341,7 +369,9 @@ class Experiment_Syncer:
             self.wrangler.group_dict = ss
 
             for exp_name in xdata.keys():
-                xdata[exp_name], ydata[exp_name] = self.wrangler.group_labels(xdata[exp_name], ydata[exp_name])
+                xdata[exp_name], ydata[exp_name] = self.wrangler.group_labels(
+                    xdata[exp_name], ydata[exp_name]
+                )
             yield xdata, ydata
 
     def group_data(self, xdata, ydata):
@@ -369,7 +399,9 @@ class Experiment_Syncer:
                 elif xdata_test == None:
                     xdata_test = xdata[exp_name]
                     ydata_test = ydata[exp_name]
-        if xdata_test is None:  # if both groups are in train_group, function combines and returns as one
+        if (
+            xdata_test is None
+        ):  # if both groups are in train_group, function combines and returns as one
             return xdata_train, ydata_train
         else:
             return xdata_train, xdata_test, ydata_train, ydata_test
@@ -446,7 +478,9 @@ class Wrangler:
                 self.num_labels = None
 
         self.t = samples[
-            0 : samples.shape[0] - int(time_window / self.sample_step) + 1 : int(time_step / self.sample_step)
+            0 : samples.shape[0]
+            - int(time_window / self.sample_step)
+            + 1 : int(time_step / self.sample_step)
         ]
 
     def select_labels(self, xdata, ydata, labels=None, return_idx=False):
@@ -522,7 +556,8 @@ class Wrangler:
         label_idx = []
         for label in unique_labels:
             label_idx = np.append(
-                label_idx, np.random.choice(np.arange(len(ydata))[ydata == label], downsamp, replace=False)
+                label_idx,
+                np.random.choice(np.arange(len(ydata))[ydata == label], downsamp, replace=False),
             )
 
         xdata = xdata[label_idx.astype(int), :, :]
@@ -563,7 +598,9 @@ class Wrangler:
                 label_data = xdata[label_idx][: n_trials[ilabel]]
 
                 # preallocate
-                bin_average_data = np.empty((n_bins[ilabel], label_data.shape[1], label_data.shape[2]))
+                bin_average_data = np.empty(
+                    (n_bins[ilabel], label_data.shape[1], label_data.shape[2])
+                )
                 # loop though bins
                 for ibin, bin in enumerate(np.unique(label_bins)):
                     # make bin idx
@@ -623,8 +660,12 @@ class Wrangler:
         y_test -- trial labels for testing data
         """
 
-        X_train_all, X_test_all, y_train, y_test = self.bin_data(X_train_all, X_test_all, y_train, y_test)
-        X_train_all, X_test_all, y_train, y_test = self.balance_data(X_train_all, X_test_all, y_train, y_test)
+        X_train_all, X_test_all, y_train, y_test = self.bin_data(
+            X_train_all, X_test_all, y_train, y_test
+        )
+        X_train_all, X_test_all, y_train, y_test = self.balance_data(
+            X_train_all, X_test_all, y_train, y_test
+        )
 
         return X_train_all, X_test_all, y_train, y_test
 
@@ -652,7 +693,9 @@ class Wrangler:
         """
         if electrode_subset is not None:
             # Create index for electrodes to include in plot
-            electrode_labels = [el for n, el in enumerate(self.electrodes) if el.startswith(electrode_subset)]
+            electrode_labels = [
+                el for n, el in enumerate(self.electrodes) if el.startswith(electrode_subset)
+            ]
             electrode_idx = np.in1d(self.electrodes, electrode_labels)
 
             xdata = xdata[:, electrode_idx]
@@ -671,7 +714,7 @@ class Wrangler:
         for self.ielec, electrode_subset in enumerate(self.electrode_subset_list):
             yield self.select_electrodes(xdata_all, electrode_subset), ydata_all
 
-    def bin_and_split_data(self, xdata, ydata, test_size=0.15):
+    def bin_and_split_data(self, xdata, ydata, test_size=0.20):
         """
         returns xtrain and xtest data and labels, binned
 
@@ -719,8 +762,12 @@ class Wrangler:
 
         for self.itime1, time1 in enumerate(self.t):
             for self.itime2, time2 in enumerate(self.t):
-                time_window_idx1 = (self.samples >= time1) & (self.samples < time1 + self.time_window)
-                time_window_idx2 = (self.samples >= time2) & (self.samples < time2 + self.time_window)
+                time_window_idx1 = (self.samples >= time1) & (
+                    self.samples < time1 + self.time_window
+                )
+                time_window_idx2 = (self.samples >= time2) & (
+                    self.samples < time2 + self.time_window
+                )
 
                 # Data for this time bin
                 X_train = np.mean(X_train_all[..., time_window_idx1], 2)
@@ -750,7 +797,10 @@ class Wrangler:
                 xdata_train_binned, ydata_train_binned, stratify=ydata_train_binned
             )
             _, X_test_all, _, y_test = train_test_split(
-                xdata_test_binned, ydata_test_binned, stratify=ydata_test_binned, test_size=test_size
+                xdata_test_binned,
+                ydata_test_binned,
+                stratify=ydata_test_binned,
+                test_size=test_size,
             )
 
             yield X_train_all, X_test_all, y_train, y_test
@@ -787,8 +837,13 @@ class Classification:
 
         self.acc = np.zeros((self.nsub, np.size(self.t), self.n_splits)) * np.nan
         self.acc_shuff = np.zeros((self.nsub, np.size(self.t), self.n_splits)) * np.nan
-        self.conf_mat = np.zeros((self.nsub, np.size(self.t), self.n_splits, self.num_labels, self.num_labels)) * np.nan
-        self.confidence_scores = np.empty((self.nsub, len(self.t), self.n_splits, self.num_labels)) * np.nan
+        self.conf_mat = (
+            np.zeros((self.nsub, np.size(self.t), self.n_splits, self.num_labels, self.num_labels))
+            * np.nan
+        )
+        self.confidence_scores = (
+            np.empty((self.nsub, len(self.t), self.n_splits, self.num_labels)) * np.nan
+        )
 
     def standardize(self, X_train, X_test):
         """
@@ -828,7 +883,9 @@ class Classification:
         self.acc[isub, itime, ifold] = self.classifier.score(X_test, y_test)
         self.acc_shuff[isub, itime, ifold] = self.classifier.score(X_test, y_test_shuffle)
 
-        self.conf_mat[isub, itime, ifold] = confusion_matrix(y_test, y_pred=self.classifier.predict(X_test))
+        self.conf_mat[isub, itime, ifold] = confusion_matrix(
+            y_test, y_pred=self.classifier.predict(X_test)
+        )
 
         confidence_scores = self.classifier.decision_function(X_test)
         for i, ss in enumerate(set(y_test)):
@@ -858,7 +915,9 @@ class Classification:
 
         self.acc[isub, iss, itime, ifold] = self.classifier.score(X_test, y_test)
         self.acc_shuff[isub, iss, itime, ifold] = self.classifier.score(X_test, y_test_shuffle)
-        self.conf_mat[isub, iss, itime, ifold] = confusion_matrix(y_test, y_pred=self.classifier.predict(X_test))
+        self.conf_mat[isub, iss, itime, ifold] = confusion_matrix(
+            y_test, y_pred=self.classifier.predict(X_test)
+        )
 
     def decode_temp_gen(self, X_train, X_test, y_train, y_test, isub):
         """
@@ -880,8 +939,12 @@ class Classification:
         self.classifier.fit(X_train, y_train)
 
         self.acc[isub, itime1, itime2, ifold] = self.classifier.score(X_test, y_test)
-        self.acc_shuff[isub, itime1, itime2, ifold] = self.classifier.score(X_test, np.random.permutation(y_test))
-        self.conf_mat[isub, itime1, itime2, ifold] = confusion_matrix(y_test, y_pred=self.classifier.predict(X_test))
+        self.acc_shuff[isub, itime1, itime2, ifold] = self.classifier.score(
+            X_test, np.random.permutation(y_test)
+        )
+        self.conf_mat[isub, itime1, itime2, ifold] = confusion_matrix(
+            y_test, y_pred=self.classifier.predict(X_test)
+        )
 
     def decode_electrode_subset(self, X_train, X_test, y_train, y_test, isub):
         """
@@ -904,8 +967,12 @@ class Classification:
         self.classifier.fit(X_train, y_train)
 
         self.acc[isub, ielec, itime, ifold] = self.classifier.score(X_test, y_test)
-        self.acc_shuff[isub, ielec, itime, ifold] = self.classifier.score(X_test, np.random.permutation(y_test))
-        self.conf_mat[isub, ielec, itime, ifold] = confusion_matrix(y_test, y_pred=self.classifier.predict(X_test))
+        self.acc_shuff[isub, ielec, itime, ifold] = self.classifier.score(
+            X_test, np.random.permutation(y_test)
+        )
+        self.conf_mat[isub, ielec, itime, ifold] = confusion_matrix(
+            y_test, y_pred=self.classifier.predict(X_test)
+        )
 
 
 class Interpreter:
@@ -1043,8 +1110,12 @@ class Interpreter:
 
                 self.check_interp_compatibility(results, f)
 
-                self.acc = np.concatenate([self.acc[:, np.newaxis], results["acc"][:, np.newaxis]], 1)
-                self.acc_shuff = np.concatenate([self.acc_shuff[:, np.newaxis], results["acc_shuff"][:, np.newaxis]], 1)
+                self.acc = np.concatenate(
+                    [self.acc[:, np.newaxis], results["acc"][:, np.newaxis]], 1
+                )
+                self.acc_shuff = np.concatenate(
+                    [self.acc_shuff[:, np.newaxis], results["acc_shuff"][:, np.newaxis]], 1
+                )
 
     def check_interp_compatibility(self, results, filename):
         """
@@ -1119,7 +1190,9 @@ class Interpreter:
         # plotting
         fig, ax = plt.subplots()
 
-        ax.fill_between(stim_time, [stim_lower, stim_lower], [stim_upper, stim_upper], color="gray", alpha=0.5)
+        ax.fill_between(
+            stim_time, [stim_lower, stim_lower], [stim_upper, stim_upper], color="gray", alpha=0.5
+        )
         ax.plot(self.t, np.ones((len(self.t))) * chance, "--", color="gray")
         ax.fill_between(self.t, upper_bound_shuff, lower_bound_shuff, alpha=0.5, color="gray")
         ax.plot(self.t, acc_mean_shuff, color="gray")
@@ -1215,7 +1288,9 @@ class Interpreter:
         ax = plt.subplot(111)
         stim_lower = ylim[0] + 0.01
         stim_upper = ylim[1]
-        ax.fill_between(stim_time, [stim_lower, stim_lower], [stim_upper, stim_upper], color="gray", alpha=0.5)
+        ax.fill_between(
+            stim_time, [stim_lower, stim_lower], [stim_upper, stim_upper], color="gray", alpha=0.5
+        )
         ax.plot(self.t, np.ones((len(self.t))) * chance, "--", color="gray")
 
         for isubset, subset in enumerate(subset_list):
@@ -1230,7 +1305,10 @@ class Interpreter:
             acc_shuff = np.mean(acc_shuff, 2)
             se_shuff = sista.sem(acc_shuff, 0)
             acc_mean_shuff = np.mean(acc_shuff, 0)
-            upper_bound_shuff, lower_bound_shuff = acc_mean_shuff + se_shuff, acc_mean_shuff - se_shuff
+            upper_bound_shuff, lower_bound_shuff = (
+                acc_mean_shuff + se_shuff,
+                acc_mean_shuff - se_shuff,
+            )
 
             ax.fill_between(self.t, upper_bound_shuff, lower_bound_shuff, alpha=0.2, color="gray")
             ax.plot(self.t, acc_mean_shuff, color="gray")
@@ -1250,7 +1328,11 @@ class Interpreter:
                 sig05 = corrected_p < 0.05
 
                 plt.scatter(
-                    self.t[self.t > 0][sig05] - 10, np.ones(sum(sig05)) * (sig_ys[isubset]), marker="s", s=28, c=color
+                    self.t[self.t > 0][sig05] - 10,
+                    np.ones(sum(sig05)) * (sig_ys[isubset]),
+                    marker="s",
+                    s=28,
+                    c=color,
                 )
 
                 sig_timepoints = self.t[self.t > 0][sig05]
@@ -1326,7 +1408,9 @@ class Interpreter:
         ax = plt.subplot(111)
         stim_lower = ylim[0] + 0.01
         stim_upper = ylim[1]
-        ax.fill_between(stim_time, [stim_lower, stim_lower], [stim_upper, stim_upper], color="gray", alpha=0.5)
+        ax.fill_between(
+            stim_time, [stim_lower, stim_lower], [stim_upper, stim_upper], color="gray", alpha=0.5
+        )
         ax.plot(self.t, np.ones((len(self.t))) * chance, "--", color="gray")
         sig_y = chance - 0.05
 
@@ -1342,7 +1426,10 @@ class Interpreter:
             acc_shuff = np.mean(acc_shuff, 2)
             se_shuff = sista.sem(acc_shuff, 0)
             acc_mean_shuff = np.mean(acc_shuff, 0)
-            upper_bound_shuff, lower_bound_shuff = acc_mean_shuff + se_shuff, acc_mean_shuff - se_shuff
+            upper_bound_shuff, lower_bound_shuff = (
+                acc_mean_shuff + se_shuff,
+                acc_mean_shuff - se_shuff,
+            )
 
             ax.fill_between(self.t, upper_bound_shuff, lower_bound_shuff, alpha=0.2, color="gray")
             ax.plot(self.t, acc_mean_shuff, color="gray")
@@ -1369,7 +1456,13 @@ class Interpreter:
             _, corrected_p, _, _ = multipletests(p, method="fdr_bh")
             sig05 = corrected_p < 0.05
 
-            plt.scatter(self.t[self.t > 0][sig05] - 10, np.ones(sum(sig05)) * (sig_y), marker="s", s=28, c="purple")
+            plt.scatter(
+                self.t[self.t > 0][sig05] - 10,
+                np.ones(sum(sig05)) * (sig_y),
+                marker="s",
+                s=28,
+                c="purple",
+            )
 
         delay_period_acc = np.mean(acc_mean[self.t > stim_time[1]])
         delay_period_sd = np.std(acc_mean[self.t > stim_time[1]])
@@ -1513,7 +1606,9 @@ class Interpreter:
         ax = plt.subplot(111)
         stim_lower = ylim[0] + 0.01
         stim_upper = ylim[1]
-        ax.fill_between(stim_time, [stim_lower, stim_lower], [stim_upper, stim_upper], color="gray", alpha=0.5)
+        ax.fill_between(
+            stim_time, [stim_lower, stim_lower], [stim_upper, stim_upper], color="gray", alpha=0.5
+        )
         ax.plot(self.t, np.zeros((len(self.t))), "--", color="gray")
         ax.axhline(y=0, color="grey", linestyle="--")
         for i in range(self.confidence_scores.shape[-1]):
@@ -1576,24 +1671,49 @@ class Interpreter:
         plt.title(title, fontsize=18)
         plt.xlabel("Time from stimulus onset (ms)", fontsize=14)
         plt.ylabel("Distance from hyperplane (a.u.)", fontsize=14)
-        plt.text(label_text_x, label_text_ys[0], f"Predicted\n{self.labels[0]}", fontsize=12, ha="center", va="top")
-        plt.text(label_text_x, label_text_ys[1], f"Predicted\n{self.labels[-1]}", fontsize=12, ha="center", va="bottom")
+        plt.text(
+            label_text_x,
+            label_text_ys[0],
+            f"Predicted\n{self.labels[0]}",
+            fontsize=12,
+            ha="center",
+            va="top",
+        )
+        plt.text(
+            label_text_x,
+            label_text_ys[1],
+            f"Predicted\n{self.labels[-1]}",
+            fontsize=12,
+            ha="center",
+            va="bottom",
+        )
         # plt.text(stim_label_xy[0],stim_label_xy[1],'Stim',fontsize=14,ha='center',c='white')
-        plt.arrow(label_text_x, arrow_ys[0], 0, -1, head_width=45, head_length=0.25, color="k", width=5)
-        plt.arrow(label_text_x, arrow_ys[1], 0, 1, head_width=45, head_length=0.25, color="k", width=5)
+        plt.arrow(
+            label_text_x, arrow_ys[0], 0, -1, head_width=45, head_length=0.25, color="k", width=5
+        )
+        plt.arrow(
+            label_text_x, arrow_ys[1], 0, 1, head_width=45, head_length=0.25, color="k", width=5
+        )
 
         plt.tight_layout()
         self.savefig("hyperplane" + subtitle, save=savefig)
         plt.show()
 
-    def temporal_generalizability(self, cmap=plt.cm.viridis, lower_lim=0, upper_lim=1, savefig=False):
+    def temporal_generalizability(
+        self, cmap=plt.cm.viridis, lower_lim=0, upper_lim=1, savefig=False
+    ):
         """
         Plot temporal generalizability
         Not used in analyses for paper.
         """
 
         plt.figure()
-        plt.imshow(np.mean(np.mean(self.acc, 0), 2), interpolation="nearest", cmap=cmap, clim=(lower_lim, upper_lim))
+        plt.imshow(
+            np.mean(np.mean(self.acc, 0), 2),
+            interpolation="nearest",
+            cmap=cmap,
+            clim=(lower_lim, upper_lim),
+        )
         plt.title("Accuracy for Training/Testing\non Different Timepoints")
         plt.colorbar()
 
@@ -1641,7 +1761,11 @@ class ERP:
     def _select_electrodes(self, xdata, electrode_subset=None, electrode_idx=None):
         if electrode_subset is not None:
             # Create index for electrodes to include in plot
-            electrode_labels = [el for n, el in enumerate(self.info["chan_labels"]) if el.startswith(electrode_subset)]
+            electrode_labels = [
+                el
+                for n, el in enumerate(self.info["chan_labels"])
+                if el.startswith(electrode_subset)
+            ]
             electrode_idx = np.in1d(self.info["chan_labels"], electrode_labels)
             xdata = xdata[electrode_idx]
         elif electrode_idx is not None:
@@ -1671,7 +1795,9 @@ class ERP:
             for iss, ss in enumerate(condition_subset):
                 ss_idx = ydata == ss
                 data = np.mean(xdata[ss_idx], 0)
-                ss_data[isub, iss] = np.mean(self._select_electrodes(data, electrode_subset, electrode_idx), 0)
+                ss_data[isub, iss] = np.mean(
+                    self._select_electrodes(data, electrode_subset, electrode_idx), 0
+                )
 
         if ax is None:
             ax = plt.subplot(111)
