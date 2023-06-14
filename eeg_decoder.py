@@ -1110,12 +1110,20 @@ class Interpreter:
 
                 self.check_interp_compatibility(results, f)
 
-                self.acc = np.concatenate(
-                    [self.acc[:, np.newaxis], results["acc"][:, np.newaxis]], 1
-                )
-                self.acc_shuff = np.concatenate(
-                    [self.acc_shuff[:, np.newaxis], results["acc_shuff"][:, np.newaxis]], 1
-                )
+                acc = self.acc
+                acc_shuff = self.acc_shuff
+                results_acc = results["acc"]
+                results_acc_shuff = results["acc_shuff"]
+
+                if len(acc.shape) < 4:
+                    acc = acc[:, np.newaxis]
+                    acc_shuff = acc_shuff[:, np.newaxis]
+                if len(results_acc.shape) < 4:
+                    results_acc = results_acc[:, np.newaxis]
+                    results_acc_shuff = results_acc_shuff[:, np.newaxis]
+
+                self.acc = np.concatenate([acc, results_acc], 1)
+                self.acc_shuff = np.concatenate([acc_shuff, results_acc_shuff], 1)
 
     def check_interp_compatibility(self, results, filename):
         """
@@ -1598,6 +1606,7 @@ class Interpreter:
         label_text_ys=[-3.4, 2.8],
         stim_label_xy=[120, 3.5],
         arrow_ys=[-1.1, 1.2],
+        train_labels = None
     ):
         """
         Plots the confidence scores of each label.
@@ -1671,10 +1680,16 @@ class Interpreter:
         plt.title(title, fontsize=18)
         plt.xlabel("Time from stimulus onset (ms)", fontsize=14)
         plt.ylabel("Distance from hyperplane (a.u.)", fontsize=14)
+
+        if train_labels is None:
+            train_labels = []
+            train_labels.append(self.labels[0])
+            train_labels.append(self.labels[-1])
+            
         plt.text(
             label_text_x,
             label_text_ys[0],
-            f"Predicted\n{self.labels[0]}",
+            f"Predicted\n{train_labels[0]}",
             fontsize=12,
             ha="center",
             va="top",
@@ -1682,12 +1697,11 @@ class Interpreter:
         plt.text(
             label_text_x,
             label_text_ys[1],
-            f"Predicted\n{self.labels[-1]}",
+            f"Predicted\n{train_labels[1]}",
             fontsize=12,
             ha="center",
             va="bottom",
         )
-        # plt.text(stim_label_xy[0],stim_label_xy[1],'Stim',fontsize=14,ha='center',c='white')
         plt.arrow(
             label_text_x, arrow_ys[0], 0, -1, head_width=45, head_length=0.25, color="k", width=5
         )

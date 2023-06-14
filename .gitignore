@@ -18,4 +18,4 @@ eggtoss/analysis/experiment
 *.pdf
 *.png
 *.ai
-*/pycache/*
+*__pycache__
