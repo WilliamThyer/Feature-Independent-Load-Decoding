@@ -1191,7 +1191,7 @@ class Interpreter:
         acc_mean_shuff = np.mean(acc_shuff, 0)
         upper_bound_shuff, lower_bound_shuff = acc_mean_shuff + se_shuff, acc_mean_shuff - se_shuff
         chance = 1 / len(self.labels)
-        sig_y = chance - 0.05
+        sig_y = chance - 0.055
         stim_lower = ylim[0] + 0.01
         stim_upper = ylim[1]
 
